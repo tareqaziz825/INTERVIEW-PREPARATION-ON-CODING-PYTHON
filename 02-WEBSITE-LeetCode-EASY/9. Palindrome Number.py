@@ -22,28 +22,30 @@ class Solution:
         return strr == strr[::-1]
 
 # using Numerical approach
+# Time Complexity: O(n)
+# Space Complexity: O(1)
 class Solution:
     def isPalindrome(self, x: int) -> bool:
         if x < 0 : 
             return False
 
-        divVal = 1
-        while x >= 10 * divVal:
-            divVal *= 10
+        divisor = 1
+        while x >= 10 * divisor:
+            divisor *= 10
 
         while x > 0:
-            lDigit = x // divVal
+            lDigit = x // divisor
             rDigit = x % 10
 
             if  lDigit != rDigit: 
                 return False
 
-            # lChop = x % divVal
-            # rChop = lChop // 10
+            # lChop = x % divisor #removes the left digit
+            # rChop = lChop // 10 #removes the right digit
             # x = rChop
-            x = (x % divVal) // 10
+            x = (x % divisor) // 10
 
-            divVal = divVal // 100
+            divisor = divisor // 100
         return True
     
 # // is called Floor Division (or Integer Division)
