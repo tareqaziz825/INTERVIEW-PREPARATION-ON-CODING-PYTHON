@@ -256,4 +256,152 @@ Interview Prep Notes
 
 ---
 
+Here’s a simple, text‑friendly explanation of **ArrayList and amortized insertion runtime** that you can copy directly into a `.txt` file for your notes.  
+
+---
+
+ArrayList and Amortized Insertion
+=================================
+
+Definition:
+-----------
+- An ArrayList (in Java) or dynamic array (in other languages) is an array-like data structure that resizes itself automatically when it becomes full.
+- It provides **O(1)** average-time access to elements by index.
+- When the array is full, it **doubles its size** (resizing factor = 2 in Java).
+
+How Resizing Works:
+-------------------
+1. Start with an array of some capacity (say 4).
+2. When you try to insert the 5th element, the array is full.
+3. A new array of double the size (capacity = 8) is created.
+4. All existing elements are copied into the new array.
+5. The new element is added.
+
+Why Amortized Insertion is O(1):
+--------------------------------
+- **Normal case**: Adding an element just places it in the next empty slot → O(1).
+- **Resize case**: Occasionally, when the array is full, resizing happens → O(n) because all elements must be copied.
+- But resizing does not happen every time. It happens rarely (only when capacity is exceeded).
+- Over many insertions, the cost of resizing is spread out ("amortized") across all insertions.
+
+Example of Copying Work:
+------------------------
+Suppose the final array size is `n`.  
+- Last resize: copied n/2 elements.  
+- Previous resize: copied n/4 elements.  
+- Previous resize: copied n/8 elements.  
+- … and so on, until the first resize (1 element copied).  
+
+Total work = n/2 + n/4 + n/8 + … + 1 ≈ n.  
+So across n insertions, the total extra work is O(n).  
+That means the average cost per insertion = O(n)/n = O(1).
+
+Key Points:
+-----------
+- **Access by index**: O(1).  
+- **Insertion (amortized)**: O(1).  
+- **Insertion (worst case, when resizing)**: O(n).  
+- **Resizing factor**: Usually 2 in Java, but can vary in other languages.  
+- **Memory trade-off**: Extra unused capacity after resizing.  
+
+Interview Prep Notes:
+---------------------
+- Be ready to explain why ArrayList insertion is amortized O(1).  
+- Know the difference between **amortized O(1)** and **worst-case O(n)**.  
+- Understand how doubling capacity ensures efficiency.  
+- Common interview questions:
+  - Implement a dynamic array from scratch.
+  - Explain amortized analysis.
+  - Compare ArrayList with LinkedList (ArrayList has O(1) access, LinkedList has O(1) insertion at ends).
+
+---
+
+StringBuilder Concept
+=====================
+
+Definition:
+-----------
+- In Java, `StringBuilder` is used to efficiently build strings by appending parts together.  
+- Strings in Java are immutable (cannot be changed once created).  
+- If you keep concatenating strings with `+`, Java creates new string objects each time, which is slow.  
+- `StringBuilder` avoids this problem by using a resizable array internally and only creating the final string when needed.
+
+How It Works:
+-------------
+- You create a `StringBuilder` object.  
+- Append strings to it using `.append()`.  
+- At the end, call `.toString()` to get the final combined string.  
+
+Example in Java:
+----------------
+```java
+String joinWords(String[] words) {
+    StringBuilder sentence = new StringBuilder();
+    for (String w : words) {
+        sentence.append(w);
+    }
+    return sentence.toString();
+}
+```
+
+---
+
+Python Equivalent
+=================
+
+In Python, strings are also immutable. But Python provides efficient ways to join strings without repeatedly creating new objects.
+
+1. Using `"".join()` (Most Efficient)
+-------------------------------------
+```python
+def join_words(words):
+    sentence = "".join(words)
+    return sentence
+
+print(join_words(["Hello", " ", "World", "!"]))
+# Output: Hello World!
+```
+
+Explanation:
+- `"".join(words)` takes all strings in the list and joins them together efficiently.  
+- This is the Pythonic equivalent of using `StringBuilder` in Java.  
+
+2. Using a List and `append()` (Similar to StringBuilder)
+---------------------------------------------------------
+```python
+def join_words(words):
+    sentence_parts = []
+    for w in words:
+        sentence_parts.append(w)
+    return "".join(sentence_parts)
+
+print(join_words(["Python", " ", "is", " ", "fast"]))
+# Output: Python is fast
+```
+
+Explanation:
+- `sentence_parts` is a list that collects all pieces.  
+- At the end, `"".join(sentence_parts)` combines them into one string.  
+- This avoids repeated string concatenation.  
+
+---
+
+Key Points
+----------
+- **Java**: Use `StringBuilder` to avoid costly string concatenations.  
+- **Python**: Use `"".join(list_of_strings)` for efficient string building.  
+- Both approaches rely on collecting pieces first, then combining them once.  
+
+Interview Prep Notes
+--------------------
+- Be ready to explain why string concatenation can be inefficient (immutability).  
+- Know that `StringBuilder` in Java and `"".join()` in Python solve this problem.  
+- Common interview questions:
+  - Implement a function that joins words efficiently.  
+  - Explain the difference between repeated concatenation vs using a builder/join.  
+  - Compare performance of `"".join()` vs `+` concatenation in Python.  
+
+---
+
+
 
