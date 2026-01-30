@@ -1,0 +1,259 @@
+Hash Table
+==========
+
+Definition:
+-----------
+A hash table (or hash map) is a data structure that stores key–value pairs. It uses a hash function to convert a key into an index in an array, allowing fast lookups, insertions, and deletions.
+
+Key Concepts:
+-------------
+- Hash Function: Converts a key into an integer index.
+- Buckets/Slots: Array positions where values are stored.
+- Collisions: Occur when two keys hash to the same index.
+- Collision Resolution: Techniques include chaining (linked lists) or open addressing (probing).
+- Performance:
+  - Average case: O(1) for search, insert, delete.
+  - Worst case: O(n) if many collisions occur.
+
+Hash Tables in Python:
+----------------------
+- Implemented using the built-in `dict` type.
+- Keys: Any immutable object (strings, numbers, tuples).
+- Hashing: Python uses the built-in `hash()` function to compute a hash code.
+- Indexing: The hash code is mapped to a slot in an internal array.
+- Collision Handling: Python uses open addressing with probing.
+- Resizing: Python automatically resizes the table when it becomes too full.
+
+Example in Python:
+------------------
+```python
+# Creating a hash table using dict
+students = {"Alice": 85, "Bob": 90, "Charlie": 78}
+
+# Lookup
+print(students["Bob"])   # 90
+
+# Insert
+students["David"] = 92
+
+# Delete
+del students["Alice"]
+
+# Check existence
+print("Charlie" in students)  # True
+```
+
+Comparison: General Hash Table vs Python Dictionary
+---------------------------------------------------
+- Key Type:
+  - General Hash Table: Usually strings or numbers
+  - Python dict: Any immutable object
+- Collision Handling:
+  - General Hash Table: Chaining or open addressing
+  - Python dict: Open addressing with probing
+- Resizing:
+  - General Hash Table: Manual or automatic
+  - Python dict: Automatic
+- Complexity:
+  - Both: Average O(1), Worst-case O(n)
+- Extra Features:
+  - General Hash Table: Basic mapping
+  - Python dict: Iteration, comprehension, ordering (since Python 3.7)
+
+Interview Prep Notes:
+---------------------
+- Understand hash functions, collisions, and load factor.
+- Know that Python’s `dict` is a hash table using open addressing.
+- Common interview questions:
+  - Implement a hash table from scratch.
+  - Explain collision resolution strategies.
+  - Compare hash tables with arrays and linked lists.
+
+---
+
+Here’s a clean, text‑friendly version of **Collisions in Hash Map** that you can copy directly into a `.txt` file. I’ll maintain this format for all future topics so your notes stay consistent.
+
+---
+
+Collisions in Hash Table/Map
+============================
+
+Definition:
+-----------
+A collision in a hash map occurs when two different keys produce the same hash index. Since the hash table has a finite number of slots, collisions are inevitable when multiple keys are stored.
+
+Why Collisions Happen:
+----------------------
+- Finite array size: Limited slots in the table.
+- Hash function limits: Different keys can map to the same index.
+- Example: In a table of size 10, both "cat" and "dog" might hash to index 3.
+
+Collision Resolution Techniques:
+--------------------------------
+
+1. Chaining
+-----------
+- Each slot stores a linked list (or another structure) of key–value pairs.
+- Multiple keys that hash to the same index are chained together.
+- Advantages: Easy to implement, handles unlimited collisions.
+- Disadvantages: Extra memory for pointers, slower lookups if chains grow long.
+
+Example (conceptual in Python):
+```python
+hash_table = [[] for _ in range(10)]
+
+def insert(key, value):
+    index = hash(key) % 10
+    hash_table[index].append((key, value))
+```
+
+2. Open Addressing
+------------------
+- Collisions are resolved by finding another empty slot in the array.
+- Methods:
+  - Linear probing: Check the next slot sequentially.
+  - Quadratic probing: Check slots at increasing intervals (1, 4, 9…).
+  - Double hashing: Use a second hash function to calculate step size.
+- Advantages: No extra memory for linked lists.
+- Disadvantages: Performance degrades as the table fills up.
+
+Note: Python’s `dict` uses open addressing with probing.
+
+Comparison of Collision Handling:
+---------------------------------
+- Chaining:
+  - Pros: Simple, unlimited collisions.
+  - Cons: Extra memory, slower if chains grow.
+- Linear Probing:
+  - Pros: Simple, cache-friendly.
+  - Cons: Clustering problem.
+- Quadratic Probing:
+  - Pros: Reduces clustering.
+  - Cons: More complex, may still fail.
+- Double Hashing:
+  - Pros: Better distribution.
+  - Cons: More computation.
+
+Interview Prep Notes:
+---------------------
+- Be ready to explain collisions clearly: “Collisions happen when two keys hash to the same index.”
+- Know both strategies: chaining vs open addressing.
+- Python specifics: `dict` uses open addressing with probing.
+- Common interview questions:
+  - Implement collision handling in a custom hash table.
+  - Compare performance of chaining vs open addressing.
+  - Explain how load factor affects collisions.
+
+---
+
+Here’s a clean, text‑friendly explanation of **Chaining, Open Addressing, and Linear Probing** that you can copy directly into a `.txt` file for your notes.  
+
+---
+
+Chaining, Open Addressing, and Linear Probing
+=============================================
+
+Chaining
+--------
+Definition:
+- Chaining is a collision resolution technique where each slot in the hash table stores a linked list (or another data structure) of key–value pairs.
+- If multiple keys hash to the same index, they are stored together in that slot.
+
+Advantages:
+- Simple to implement.
+- Can handle unlimited collisions (limited only by memory).
+
+Disadvantages:
+- Requires extra memory for pointers.
+- Lookup time increases if chains grow long.
+
+Example (conceptual in Python):
+```python
+hash_table = [[] for _ in range(10)]
+
+def insert(key, value):
+    index = hash(key) % 10
+    hash_table[index].append((key, value))
+```
+
+---
+
+Open Addressing
+---------------
+Definition:
+- Open addressing resolves collisions by finding another empty slot in the table instead of storing multiple items in the same slot.
+- When a collision occurs, the algorithm probes the table to find the next available position.
+
+Advantages:
+- No extra memory needed for linked lists.
+- Cache-friendly since data is stored in a single array.
+
+Disadvantages:
+- Performance degrades as the table fills up (high load factor).
+- Requires careful probing strategy to avoid clustering.
+
+Methods:
+- Linear Probing
+- Quadratic Probing
+- Double Hashing
+
+Note: Python’s `dict` uses open addressing with probing.
+
+---
+
+Linear Probing
+--------------
+Definition:
+- Linear probing is a specific type of open addressing.
+- When a collision occurs, the algorithm checks the next slot sequentially until an empty slot is found.
+
+Advantages:
+- Simple to implement.
+- Cache-friendly due to sequential memory access.
+
+Disadvantages:
+- Clustering problem: consecutive slots may fill up, leading to longer probe sequences.
+- Performance decreases as load factor increases.
+
+Example (conceptual in Python):
+```python
+table_size = 10
+hash_table = [None] * table_size
+
+def insert(key, value):
+    index = hash(key) % table_size
+    while hash_table[index] is not None:
+        index = (index + 1) % table_size  # linear probing
+    hash_table[index] = (key, value)
+```
+
+---
+
+Comparison
+----------
+- Chaining:
+  - Stores multiple items in the same slot using linked lists.
+  - Handles unlimited collisions but requires extra memory.
+- Open Addressing:
+  - Stores items directly in the table by probing for empty slots.
+  - More memory-efficient but performance depends on load factor.
+- Linear Probing:
+  - A simple form of open addressing.
+  - Easy to implement but suffers from clustering.
+
+---
+
+Interview Prep Notes
+--------------------
+- Be ready to explain the difference between chaining and open addressing.
+- Know that Python’s `dict` uses open addressing with probing.
+- Understand the clustering problem in linear probing.
+- Common interview questions:
+  - Implement a hash table with chaining.
+  - Implement a hash table with open addressing (linear probing).
+  - Compare performance of chaining vs open addressing.
+  - Explain how load factor affects collisions and probing efficiency.
+
+---
+
+
